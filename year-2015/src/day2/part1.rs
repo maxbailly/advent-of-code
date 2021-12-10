@@ -21,8 +21,7 @@ fn area_from_str(line: &str) -> u32 {
 
 fn main() {
     let res: u32 = utils::inputs_str!("1")
-        .split('\n')
-        .filter(|line| !line.is_empty())
+        .split_whitespace()
         .map(area_from_str)
         .sum();
 

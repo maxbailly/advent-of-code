@@ -8,6 +8,6 @@ macro_rules! inputs_bytes {
 #[macro_export]
 macro_rules! inputs_str {
     ($num: literal) => {
-        std::include_str!(std::concat!("inputs/part", $num, ".txt"))
+        std::include_str!(std::concat!("inputs/part", $num, ".txt")).trim()
     };
 }

@@ -7,7 +7,9 @@ edition = "2021"
 
 [dependencies]
 utils = { path = "../utils" }
-md5 = "^0.7"
+md-5 = "^0.10"
+
+# Binaries
 
 [[bin]]
 name = "day1p1"
@@ -24,3 +26,11 @@ path = "src/day3/part1.rs"
 [[bin]]
 name = "day4p1"
 path = "src/day4/part1.rs"
+
+[[bin]]
+name = "day5p1"
+path = "src/day5/part1.rs"
+
+[[bin]]
+name = "day6p1"
+path = "src/day6/part1.rs"

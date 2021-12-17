@@ -8,6 +8,8 @@ edition = "2021"
 [dependencies]
 utils = { path = "../utils" }
 md-5 = "^0.10"
+serde = "^1"
+serde_json = "^1"
 
 # Binaries
 

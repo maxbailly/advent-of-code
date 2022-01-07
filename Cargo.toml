@@ -1,5 +1,5 @@
 [workspace]
 members = [
-    "year-*",
-    "utils"
+    "utils",
+    "years/*/*"
 ]

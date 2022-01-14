@@ -264,7 +264,7 @@ impl Shop {
 /* ---------- */
 
 fn main() {
-    let shop: Shop = serde_json::from_str(utils::inputs_str!("1")).unwrap();
+    let shop: Shop = serde_json::from_str(utils::input_str!("1")).unwrap();
     let player = Entity::new(100, 0, 0);
     let turns_to_survive = player.resistance(BOSS.damage());
     let stats_req = BOSS.stats_required_to_kill_in_turns(turns_to_survive);

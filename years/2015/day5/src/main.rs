@@ -41,7 +41,7 @@ impl From<&'static str> for StringType {
 }
 
 fn main() {
-    let count = utils::inputs_str!("1").split_whitespace()
+    let count = utils::input_str!("1").split_whitespace()
         .map(StringType::from)
         .filter(|str_type| matches!(str_type, StringType::Nice))
         .count();

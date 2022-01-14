@@ -20,7 +20,7 @@ fn area_from_str(line: &str) -> u32 {
 }
 
 fn main() {
-    let res: u32 = utils::inputs_str!("1")
+    let res: u32 = utils::input_str!("1")
         .split_whitespace()
         .map(area_from_str)
         .sum();

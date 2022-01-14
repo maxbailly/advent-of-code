@@ -1,5 +1,5 @@
 fn main() {
-    let input = utils::inputs_bytes!("1");
+    let input = utils::input_bytes!("1");
 
     let ret = input.iter()
         .map(|c | {

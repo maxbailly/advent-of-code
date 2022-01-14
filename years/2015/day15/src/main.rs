@@ -139,7 +139,7 @@ fn all_proportions_score(ingrs: &[Ingredient], proportions: &[usize]) -> i32 {
 /* ----------- */
 
 fn main() {
-    let ingredients: Ingredients = utils::inputs_str!("1")
+    let ingredients: Ingredients = utils::input_str!("1")
         .split('\n')
         .map(Ingredient::from)
         .collect();

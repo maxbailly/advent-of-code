@@ -11,3 +11,17 @@ macro_rules! input_str {
         std::include_str!(std::concat!("inputs/part", $num, ".txt")).trim()
     };
 }
+
+#[macro_export]
+macro_rules! bench {
+    ($e: expr) => {
+        use std::time::Instant;
+
+        let now = Instant::now();
+
+        $e;
+
+        let elapsed = now.elapsed();
+        dbg!(elapsed);
+    };
+}

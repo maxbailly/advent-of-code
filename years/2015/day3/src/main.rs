@@ -31,7 +31,7 @@ impl Clone for Position {
 }
 
 fn main() {
-    let input = utils::input_bytes!("1");
+    let input = utils::input_bytes!("part1.txt");
     let mut pos = Position::default();
     let mut visited =  Vec::<Position>::with_capacity(input.len() + 1);
 

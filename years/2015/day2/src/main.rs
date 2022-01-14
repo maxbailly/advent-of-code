@@ -20,7 +20,7 @@ fn area_from_str(line: &str) -> u32 {
 }
 
 fn main() {
-    let res: u32 = utils::input_str!("1")
+    let res: u32 = utils::input_str!("part1.txt")
         .split_whitespace()
         .map(area_from_str)
         .sum();

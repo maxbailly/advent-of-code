@@ -86,7 +86,7 @@ fn get_person_happiness(persons: &Persons, person: &str, left_person: &str, righ
 fn main() {
     let mut persons = Persons::default();
 
-    utils::input_str!("1").split('\n')
+    utils::input_str!("part1.txt").split('\n')
         .for_each(|line| {
             let parts = line.split_whitespace().collect::<Vec<&str>>();
 

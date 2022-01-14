@@ -143,7 +143,7 @@ impl LightArray {
 fn main() {
     let mut lights = LightArray::new();
 
-    utils::input_str!("1").split('\n')
+    utils::input_str!("part1.txt").split('\n')
         .map(Command::from)
         .for_each(|cmd| lights.do_command(cmd));
 

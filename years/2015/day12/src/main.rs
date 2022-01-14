@@ -14,6 +14,6 @@ fn add_numbers(value: &Value) -> i64 {
 /* ---------- */
 
 fn main() {
-    let value: Value = serde_json::from_str(utils::input_str!("1")).expect("failed to parse");
+    let value: Value = serde_json::from_str(utils::input_str!("part1.json")).expect("failed to parse");
     println!("{}", add_numbers(&value));
 }

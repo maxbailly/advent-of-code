@@ -1,5 +1,5 @@
 fn main() {
-    let input = utils::input_bytes!("1");
+    let input = utils::input_bytes!("part1.txt");
 
     let ret = input.iter()
         .map(|c | {

@@ -75,7 +75,7 @@ fn main() {
     let mut mol = Molecule::default();
     let mut unique_replacements = HashSet::new();
 
-    utils::input_str!("1")
+    utils::input_str!("part1.txt")
         .split('\n')
         .filter(|line| !line.is_empty())
         .rev()

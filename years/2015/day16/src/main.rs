@@ -81,7 +81,7 @@ impl From<&str> for Aunt {
 /* ---------- */
 
 fn main() {
-    utils::input_str!("1").split('\n').map(Aunt::from)
+    utils::input_str!("part1.txt").split('\n').map(Aunt::from)
         .filter(|aunt| aunt.children == OUR_AUNT.children || aunt.children.is_none())
         .filter(|aunt| aunt.cats == OUR_AUNT.cats || aunt.cats.is_none())
         .filter(|aunt| aunt.samoyeds == OUR_AUNT.samoyeds || aunt.samoyeds.is_none())

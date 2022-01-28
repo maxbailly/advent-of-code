@@ -133,7 +133,7 @@ fn get_all_configurations(pkgs: &[u64]) -> IdealConfiguration {
 
 fn main() {
     let pkgs = utils::input_str!("part1.txt")
-        .split('\n')
+        .lines()
         .map(|line| line.parse().unwrap())
         .collect::<Vec<_>>();
 

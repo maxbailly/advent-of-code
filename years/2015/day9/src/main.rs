@@ -77,7 +77,7 @@ fn get_distance_to(graph: &Cities, from: &'static str, to: &'static str) -> u32 
 fn main() {
     let mut graph = Cities::default();
 
-    utils::input_str!("part1.txt").split('\n')
+    utils::input_str!("part1.txt").lines()
         .for_each(|line | {
             let parts = line.split_whitespace().collect::<Vec<&str>>();
 

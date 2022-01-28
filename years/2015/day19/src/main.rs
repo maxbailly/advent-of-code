@@ -76,7 +76,7 @@ fn main() {
     let mut unique_replacements = HashSet::new();
 
     utils::input_str!("part1.txt")
-        .split('\n')
+        .lines()
         .filter(|line| !line.is_empty())
         .rev()
         .for_each(|line| {

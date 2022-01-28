@@ -62,7 +62,7 @@ impl From<&'static str> for Present {
 /* ---------- */
 
 fn part1(input: &'static str) -> u32 {
-    input.split_whitespace()
+    input.lines()
         .map(Present::from)
         .map(|present| present.paper_amount())
         .sum()
@@ -71,7 +71,7 @@ fn part1(input: &'static str) -> u32 {
 /* ---------- */
 
 fn part2(input: &'static str) -> u32 {
-    input.split_whitespace()
+    input.lines()
         .map(Present::from)
         .map(|present| present.ribbon_amount())
         .sum()

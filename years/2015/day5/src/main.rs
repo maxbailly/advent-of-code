@@ -89,7 +89,7 @@ impl StringType {
 /* ---------- */
 
 fn part1(input: &'static str) -> usize {
-    input.split_whitespace()
+    input.lines()
         .map(StringType::from_using_part1_rules)
         .filter(|str_type| matches!(str_type, StringType::Nice))
         .count()
@@ -98,7 +98,7 @@ fn part1(input: &'static str) -> usize {
 /* ---------- */
 
 fn part2(input: &'static str) -> usize {
-    input.split_whitespace()
+    input.lines()
         .map(StringType::from_using_part2_rules)
         .filter(|str_type| matches!(str_type, StringType::Nice))
         .count()

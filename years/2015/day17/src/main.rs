@@ -85,7 +85,7 @@ fn count_combinaisons(containers: &mut Vec<Container>, amount: u8) -> usize {
 /* ---------- */
 
 fn main() {
-    let mut containers: Vec<Container> = utils::input_str!("part1.txt").split('\n')
+    let mut containers: Vec<Container> = utils::input_str!("part1.txt").lines()
         .enumerate()
         .map(|(id, line)| {
             let quantity = line.parse().expect("failed to parse container size");

@@ -43,7 +43,7 @@ fn count_mem_chars(line: &str, len: usize) -> u8 {
 /* ---------- */
 
 fn main() {
-    let count = utils::input_str!("part1.txt").split_whitespace()
+    let count = utils::input_str!("part1.txt").lines()
         .map(|line| {
             let code_len = line.len();
             let count = count_mem_chars(line, code_len);

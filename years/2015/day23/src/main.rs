@@ -55,7 +55,7 @@ struct Program(Vec<Instruction>);
 
 impl Program {
     fn compile(input: &'static str) -> Self {
-        let instructions = input.split('\n').map(|line| {
+        let instructions = input.lines().map(|line| {
                 let parts = line.split(' ').collect::<Vec<&'static str>>();
 
                 match parts[0] {

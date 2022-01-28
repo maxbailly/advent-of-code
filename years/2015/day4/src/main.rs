@@ -1,7 +1,10 @@
 use md5::{Md5, Digest};
 
-fn main() {
-    const INPUT: &str = "bgvyzdsv";
+const INPUT: &str = "bgvyzdsv";
+
+/* ---------- */
+
+fn part1() -> u32 {
     let mut count = 0;
     let mut hasher = Md5::new();
 
@@ -12,10 +15,36 @@ fn main() {
         let result = hasher.finalize_reset();
 
         if result[0] == 0 && result[1] == 0 && result[2] < 16 {
-            println!("result => {}", count);
-            return ;
+            return count;
         } else {
             count += 1;
         }
     }
+}
+
+/* ---------- */
+
+fn part2() -> u32 {
+    let mut count = 0;
+    let mut hasher = Md5::new();
+
+    loop {
+        let test = format!("{}{}", INPUT, count);
+
+        hasher.update(test.as_bytes());
+        let result = hasher.finalize_reset();
+
+        if result[0] == 0 && result[1] == 0 && result[2] == 0 {
+            return count;
+        } else {
+            count += 1;
+        }
+    }
+}
+
+/* ---------- */
+
+fn main() {
+    println!("[PART 1] Answer = {}", part1());
+    println!("[PART 2] Answer = {}", part2());
 }

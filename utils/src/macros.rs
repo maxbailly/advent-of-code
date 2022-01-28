@@ -15,13 +15,15 @@ macro_rules! input_str {
 #[macro_export]
 macro_rules! bench {
     ($e: expr) => {
-        use std::time::Instant;
+        {
+            use std::time::Instant;
 
-        let now = Instant::now();
+            let now = Instant::now();
 
-        $e;
+            $e;
 
-        let elapsed = now.elapsed();
-        dbg!(elapsed);
+            let elapsed = now.elapsed();
+            dbg!(elapsed);
+        }
     };
 }

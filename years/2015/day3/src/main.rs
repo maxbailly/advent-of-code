@@ -144,6 +144,5 @@ fn part2() -> usize {
 /* ---------- */
 
 fn main() {
-    println!("[PART 1] Answer = {}", part1());
-    println!("[PART 1] Answer = {}", part2())
+    utils::answer!()
 }

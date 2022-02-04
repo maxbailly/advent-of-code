@@ -108,9 +108,7 @@ fn part2(input: &'static str) -> usize {
 
 fn main() {
     let input = utils::input_str!("part1.txt");
-
-    println!("[PART 1] Answer = {}", part1(input));
-    println!("[PART 2] Answer = {}", part2(input));
+    utils::answer!(input)
 }
 
 /* ---------- */

@@ -5,12 +5,16 @@ macro_rules! input_bytes {
     };
 }
 
+/* ---------- */
+
 #[macro_export]
 macro_rules! input_str {
     ($name: literal) => {
         std::include_str!(std::concat!("inputs/", $name)).trim()
     };
 }
+
+/* ---------- */
 
 #[macro_export]
 macro_rules! bench {
@@ -26,4 +30,19 @@ macro_rules! bench {
             dbg!(elapsed);
         }
     };
+}
+
+/* ---------- */
+
+#[macro_export]
+macro_rules! answer {
+    ($input:expr) => {{
+        println!("[PART 1] Answer = {}", part1($input));
+        println!("[PART 2] Answer = {}", part2($input));
+    }};
+
+    () => {{
+        println!("[PART 1] Answer = {}", part1());
+        println!("[PART 2] Answer = {}", part2());
+    }};
 }

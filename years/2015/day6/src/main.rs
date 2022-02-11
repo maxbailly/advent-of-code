@@ -206,7 +206,7 @@ fn part2(lights: &mut LightArray, input: &'static str) -> usize {
 
 fn main() {
     let mut lights = LightArray::new();
-    let input = utils::input_str!("part1.txt");
+    let input = utils::input_str!();
 
     println!("[PART 1] Answer = {}", part1(&mut lights, input));
     lights.reset();

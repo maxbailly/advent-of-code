@@ -30,7 +30,7 @@ impl Reindeer {
 /* ---------- */
 
 fn main() {
-    let max = utils::input_str!("part1.txt").lines()
+    let max = utils::input_str!().lines()
         .map(|line| {
             let parts = line.split_whitespace().collect::<Vec<&str>>();
             let reindeer = Reindeer::new(parts[3], parts[6], parts[13]);

@@ -80,7 +80,7 @@ fn part2(input: &'static str) -> u32 {
 /* ---------- */
 
 fn main() {
-    let input = utils::input_str!("part1.txt");
+    let input = utils::input_str!();
     utils::answer!(input)
 }
 

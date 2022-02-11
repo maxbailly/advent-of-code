@@ -182,7 +182,7 @@ impl Computer {
 /* ---------- */
 
 fn main() {
-    let program = Program::compile(utils::input_str!("part1.txt"));
+    let program = Program::compile(utils::input_str!());
     let mut comp = Computer::new();
 
     comp.run(&program);

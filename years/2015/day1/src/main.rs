@@ -1,4 +1,4 @@
-const INPUT: &[u8] = utils::input_bytes!("part1.txt");
+const INPUT: &[u8] = utils::input_bytes!();
 
 fn part1() -> i32 {
     INPUT.iter()

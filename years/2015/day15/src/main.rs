@@ -139,7 +139,7 @@ fn all_proportions_score(ingrs: &[Ingredient], proportions: &[usize]) -> i32 {
 /* ----------- */
 
 fn main() {
-    let ingredients: Ingredients = utils::input_str!("part1.txt").lines()
+    let ingredients: Ingredients = utils::input_str!().lines()
         .map(Ingredient::from)
         .collect();
     let mut max_score = 0;

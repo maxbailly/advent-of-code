@@ -272,7 +272,7 @@ fn parse_line(line: &'static str, wires: &mut Wires) {
 fn main() {
     let mut wires = Wires::new();
 
-    utils::input_str!("part1.txt").lines().for_each(|line| parse_line(line, &mut wires));
+    utils::input_str!().lines().for_each(|line| parse_line(line, &mut wires));
 
     let res = wires.wire_signal("a").unwrap();
     println!("result = {}", res)

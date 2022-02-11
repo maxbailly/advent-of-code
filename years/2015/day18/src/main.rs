@@ -71,7 +71,7 @@ fn next_step(prev: &[LightState], next: &mut Vec<LightState>) {
 /* ---------- */
 
 fn main() {
-    let mut prev = utils::input_bytes!("part1.txt").iter()
+    let mut prev = utils::input_bytes!().iter()
         .filter_map(|byte| {
             match byte {
                 b'#' => Some(LightState::On),

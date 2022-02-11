@@ -1,7 +1,7 @@
 #[macro_export]
 macro_rules! input_bytes {
     ($name: literal) => {
-        std::include_bytes!(std::concat!("inputs/", $name))
+        std::include_bytes!(std::concat!("../inputs/", $name))
     };
 }
 
@@ -10,7 +10,7 @@ macro_rules! input_bytes {
 #[macro_export]
 macro_rules! input_str {
     ($name: literal) => {
-        std::include_str!(std::concat!("inputs/", $name)).trim()
+        std::include_str!(std::concat!("../inputs/", $name)).trim()
     };
 }
 

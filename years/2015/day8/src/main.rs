@@ -1,56 +1,78 @@
-#[inline(always)]
-fn is_ascii_numeric(c: &u8) -> bool {
-    *c >= b'0' && *c <= b'9'
-}
+const INPUT: &[u8] = utils::input_bytes!();
 
 /* ---------- */
 
-fn escape(idx: &mut usize, bytes: &[u8]) {
-    *idx += 1;
+const fn part1(input: &[u8]) -> usize {
+    let len = input.len();
+    let mut cursor = 0;
+    let mut diff = 0;
 
-    if bytes[*idx] == b'x' {
-        *idx += 1;
-    }
-
-    while *idx < bytes.len() && is_ascii_numeric(&bytes[*idx]) {
-        *idx += 1;
-    }
-}
-
-/* ---------- */
-
-fn count_mem_chars(line: &str, len: usize) -> u8 {
-    let bytes = line.as_bytes();
-    let mut idx = 0usize;
-    let mut count = 0u8;
-
-    while idx < len {
-        match bytes[idx] {
-            b'\\' => {
-                escape(&mut idx, bytes);
-                count += 1
+    while cursor < len {
+        match input[cursor] {
+            b'"' => diff += 1,
+            b'\\' if matches!(input[cursor + 1], b'"' | b'\\') =>  {
+                diff += 1;
+                cursor += 1;
             },
-            b'"' => (),
-            _ => count += 1
+            b'\\' if input[cursor + 1] == b'x' =>  {
+                diff += 3;
+                cursor += 3;
+            },
+            _ => ()
         }
 
-        idx += 1;
+        cursor += 1;
     }
 
-    count
+    diff
+}
+
+/* ---------- */
+
+const fn part2(input: &[u8]) -> usize {
+    let len = input.len();
+    let mut cursor = 0;
+    let mut diff = 0;
+
+    while cursor < len {
+        match input[cursor] {
+            b'"' => diff += 1,
+            b'\\' => diff += 1,
+            b'\r' if input[cursor + 1] == b'\n' => {
+                diff += 2;
+                cursor += 1;
+            }
+            b'\n' | b'\r' => diff += 2,
+            _ => ()
+        }
+
+        cursor += 1;
+    }
+
+    if !matches!(input[len - 1], b'\n' | b'\r') {
+        diff += 2
+    }
+
+    diff
 }
 
 /* ---------- */
 
 fn main() {
-    let count = utils::input_str!().lines()
-        .map(|line| {
-            let code_len = line.len();
-            let count = count_mem_chars(line, code_len);
+    utils::answer!(INPUT)
+}
 
-            code_len - count as usize
-        })
-        .sum::<usize>();
+/* ---------- */
 
-    println!("result = {}", count);
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn test_part2() {
+        use crate::part2;
+
+        assert_eq!(part2(r#""""#.as_bytes()), 4);
+        assert_eq!(part2(r#""abc""#.as_bytes()), 4);
+        assert_eq!(part2(r#""aaa\"aaa""#.as_bytes()), 6);
+        assert_eq!(part2(r#""\x27""#.as_bytes()), 5);
+    }
 }

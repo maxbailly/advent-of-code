@@ -8,6 +8,14 @@ type Cities = HashMap<&'static str, Routes>;
 
 /* ---------- */
 
+#[derive(Clone, Copy)]
+enum Distance {
+    Min,
+    Max
+}
+
+/* ---------- */
+
 fn new_path(graph: &mut Cities, from: &'static str, to: &'static str, dist: u32) {
     match graph.get_mut(from) {
         Some(routes) => {
@@ -27,21 +35,23 @@ fn new_path(graph: &mut Cities, from: &'static str, to: &'static str, dist: u32)
 
 /* ---------- */
 
-fn visit(graph: &Cities, visited: &RefCell<Vec<&'static str>>, min_distance: &mut u32) {
+fn visit(graph: &Cities, visited: &RefCell<Vec<&'static str>>, distance: &mut u32, dist_type: Distance) {
     graph.iter()
         .filter(|(name, _)| {
             !visited.borrow().iter().any(|visited| **name == *visited)
         }).for_each(|(city, _routes)| {
             visited.borrow_mut().push(city);
-            visit(graph, visited, min_distance);
+            visit(graph, visited, distance, dist_type);
             visited.borrow_mut().pop();
         });
 
     if graph.len() == visited.borrow().len() {
         let distance_visited = total_distance(graph, visited);
 
-        if distance_visited < *min_distance {
-            *min_distance = distance_visited;
+        match dist_type {
+            Distance::Max if distance_visited > *distance => *distance = distance_visited,
+            Distance::Min if distance_visited < *distance => *distance = distance_visited,
+            _ => ()
         }
     }
 }
@@ -74,6 +84,28 @@ fn get_distance_to(graph: &Cities, from: &'static str, to: &'static str) -> u32 
 
 /* ---------- */
 
+fn part1(graph: &Cities) -> u32 {
+    let visited: RefCell<Vec<&'static str>> = RefCell::default();
+    let mut min_dist = u32::MAX;
+
+    visit(graph, &visited, &mut min_dist, Distance::Min);
+
+    min_dist
+}
+
+/* ---------- */
+
+fn part2(graph: &Cities) -> u32 {
+    let visited: RefCell<Vec<&'static str>> = RefCell::default();
+    let mut max_dist = 0;
+
+    visit(graph, &visited, &mut max_dist, Distance::Max);
+
+    max_dist
+}
+
+/* ---------- */
+
 fn main() {
     let mut graph = Cities::default();
 
@@ -89,10 +121,5 @@ fn main() {
             new_path(&mut graph, city2, city1, dist)
         });
 
-    let visited: RefCell<Vec<&'static str>> = RefCell::default();
-    let mut min_dist = u32::MAX;
-
-    visit(&graph, &visited, &mut min_dist);
-
-    println!("result => {}", min_dist)
+    utils::answer!(&graph);
 }

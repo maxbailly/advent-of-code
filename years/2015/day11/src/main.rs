@@ -107,9 +107,7 @@ impl std::fmt::Display for Password {
 
 /* ---------- */
 
-fn main() {
-    let mut passwd = Password::from(INPUT);
-
+fn part1(mut passwd: Password) -> Password {
     loop {
         passwd.next();
         if passwd.good() {
@@ -117,5 +115,17 @@ fn main() {
         }
     }
 
-    println!("{} ", passwd);
+    passwd
+}
+
+/* ---------- */
+
+fn main() {
+    let passwd = Password::from(INPUT);
+
+    let passwd = part1(passwd);
+    println!("[PART 1] Answer = {passwd}");
+
+    let passwd = part1(passwd);
+    println!("[PART 2] Answer = {passwd}");
 }

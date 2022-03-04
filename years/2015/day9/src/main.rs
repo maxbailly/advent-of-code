@@ -11,17 +11,17 @@ type Cities = HashMap<&'static str, Routes>;
 #[derive(Clone, Copy)]
 enum Distance {
     Min,
-    Max
+    Max,
 }
 
 /* ---------- */
 
 fn new_path(graph: &mut Cities, from: &'static str, to: &'static str, dist: u32) {
     match graph.get_mut(from) {
-        Some(routes) => {
-            match routes.get_mut(to) {
-                Some(_) => panic!("distance already set"),
-                None => { routes.insert(to, dist); }
+        Some(routes) => match routes.get_mut(to) {
+            Some(_) => panic!("distance already set"),
+            None => {
+                routes.insert(to, dist);
             }
         },
         None => {
@@ -35,11 +35,16 @@ fn new_path(graph: &mut Cities, from: &'static str, to: &'static str, dist: u32)
 
 /* ---------- */
 
-fn visit(graph: &Cities, visited: &RefCell<Vec<&'static str>>, distance: &mut u32, dist_type: Distance) {
-    graph.iter()
-        .filter(|(name, _)| {
-            !visited.borrow().iter().any(|visited| **name == *visited)
-        }).for_each(|(city, _routes)| {
+fn visit(
+    graph: &Cities,
+    visited: &RefCell<Vec<&'static str>>,
+    distance: &mut u32,
+    dist_type: Distance,
+) {
+    graph
+        .iter()
+        .filter(|(name, _)| !visited.borrow().iter().any(|visited| **name == *visited))
+        .for_each(|(city, _routes)| {
             visited.borrow_mut().push(city);
             visit(graph, visited, distance, dist_type);
             visited.borrow_mut().pop();
@@ -51,7 +56,7 @@ fn visit(graph: &Cities, visited: &RefCell<Vec<&'static str>>, distance: &mut u3
         match dist_type {
             Distance::Max if distance_visited > *distance => *distance = distance_visited,
             Distance::Min if distance_visited < *distance => *distance = distance_visited,
-            _ => ()
+            _ => (),
         }
     }
 }
@@ -109,17 +114,16 @@ fn part2(graph: &Cities) -> u32 {
 fn main() {
     let mut graph = Cities::default();
 
-    utils::input_str!().lines()
-        .for_each(|line | {
-            let parts = line.split_whitespace().collect::<Vec<&str>>();
+    utils::input_str!().lines().for_each(|line| {
+        let parts = line.split_whitespace().collect::<Vec<&str>>();
 
-            let city1 = parts[0];
-            let city2 = parts[2];
-            let dist = parts[4].parse().expect("failed to parse distance");
+        let city1 = parts[0];
+        let city2 = parts[2];
+        let dist = parts[4].parse().expect("failed to parse distance");
 
-            new_path(&mut graph, city1, city2, dist);
-            new_path(&mut graph, city2, city1, dist)
-        });
+        new_path(&mut graph, city1, city2, dist);
+        new_path(&mut graph, city2, city1, dist)
+    });
 
     utils::answer!(&graph);
 }

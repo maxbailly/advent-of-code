@@ -3,7 +3,7 @@ use crate::Input;
 /* ---------- */
 
 pub struct Not {
-    input: Box<dyn Input>
+    input: Box<dyn Input>,
 }
 
 impl Not {

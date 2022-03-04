@@ -12,7 +12,8 @@ impl Wires {
     }
 
     pub fn entry(&mut self, id: &'static str) -> WireRef {
-        self.0.iter()
+        self.0
+            .iter()
             .find(|wire| wire.id() == id)
             .cloned()
             .unwrap_or_else(|| {

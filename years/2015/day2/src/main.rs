@@ -16,7 +16,7 @@ const fn box_volume(l: u32, w: u32, h: u32) -> u32 {
 struct Present {
     lenght: u32,
     width: u32,
-    height: u32
+    height: u32,
 }
 
 impl Present {
@@ -27,11 +27,12 @@ impl Present {
             rect_area(self.lenght, self.height),
         ];
 
-        let min_area = side_areas.iter().min().expect("failed to find minimum area");
+        let min_area = side_areas
+            .iter()
+            .min()
+            .expect("failed to find minimum area");
 
-        side_areas[0] * 2 + side_areas[1] * 2
-            + side_areas[2] * 2
-            + min_area
+        side_areas[0] * 2 + side_areas[1] * 2 + side_areas[2] * 2 + min_area
     }
 
     fn ribbon_amount(&self) -> u32 {
@@ -54,7 +55,7 @@ impl From<&'static str> for Present {
         Self {
             lenght: parts[0].parse().expect("expected a valid length"),
             width: parts[1].parse().expect("expected a valid width"),
-            height: parts[2].parse().expect("expected a valid height")
+            height: parts[2].parse().expect("expected a valid height"),
         }
     }
 }
@@ -62,7 +63,8 @@ impl From<&'static str> for Present {
 /* ---------- */
 
 fn part1(input: &'static str) -> u32 {
-    input.lines()
+    input
+        .lines()
         .map(Present::from)
         .map(|present| present.paper_amount())
         .sum()
@@ -71,7 +73,8 @@ fn part1(input: &'static str) -> u32 {
 /* ---------- */
 
 fn part2(input: &'static str) -> u32 {
-    input.lines()
+    input
+        .lines()
         .map(Present::from)
         .map(|present| present.ribbon_amount())
         .sum()

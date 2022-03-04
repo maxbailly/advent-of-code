@@ -1,4 +1,4 @@
-use md5::{Md5, Digest};
+use md5::{Digest, Md5};
 
 const INPUT: &str = "bgvyzdsv";
 

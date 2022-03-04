@@ -21,8 +21,16 @@ fn count_neighboor_on_at(array: &[LightState], idx: usize, size: usize) -> usize
     let bounds = (
         if grid.0 != 0 { grid.0 - 1 } else { 0 },
         if grid.1 != 0 { grid.1 - 1 } else { 0 },
-        if grid.0 != size - 1 { grid.0 + 1 } else { size - 1 },
-        if grid.1 != size - 1 { grid.1 + 1 } else { size - 1 },
+        if grid.0 != size - 1 {
+            grid.0 + 1
+        } else {
+            size - 1
+        },
+        if grid.1 != size - 1 {
+            grid.1 + 1
+        } else {
+            size - 1
+        },
     );
 
     for y in (bounds.1)..=(bounds.3) {
@@ -46,7 +54,7 @@ fn count_neighboor_on_at(array: &[LightState], idx: usize, size: usize) -> usize
 #[derive(Copy, Clone, Debug)]
 enum LightState {
     On,
-    Off
+    Off,
 }
 
 impl LightState {
@@ -54,7 +62,7 @@ impl LightState {
         match self {
             LightState::Off if neightboors == 3 => LightState::On,
             LightState::On if neightboors == 2 || neightboors == 3 => LightState::On,
-            _ => LightState::Off
+            _ => LightState::Off,
         }
     }
 }
@@ -71,13 +79,12 @@ fn next_step(prev: &[LightState], next: &mut Vec<LightState>) {
 /* ---------- */
 
 fn main() {
-    let mut prev = utils::input_bytes!().iter()
-        .filter_map(|byte| {
-            match byte {
-                b'#' => Some(LightState::On),
-                b'.' => Some(LightState::Off),
-                _ => None
-            }
+    let mut prev = utils::input_bytes!()
+        .iter()
+        .filter_map(|byte| match byte {
+            b'#' => Some(LightState::On),
+            b'.' => Some(LightState::Off),
+            _ => None,
         })
         .collect::<Vec<LightState>>();
 
@@ -88,7 +95,8 @@ fn main() {
         next = std::mem::replace(&mut prev, next);
     }
 
-    let res = prev.iter()
+    let res = prev
+        .iter()
         .filter(|light| matches!(light, LightState::On))
         .count();
 

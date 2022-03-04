@@ -1,5 +1,5 @@
-use std::ops::Add;
 use std::iter::Sum;
+use std::ops::Add;
 
 use integer_partitions::Partitions;
 
@@ -27,13 +27,13 @@ impl Ingredient {
             durability: self.durability * teaspoons,
             flavor: self.flavor * teaspoons,
             texture: self.texture * teaspoons,
-            calories: self.calories
+            calories: self.calories,
         }
     }
 
     fn score(&self) -> i32 {
         if self.capacity <= 0 || self.durability <= 0 || self.flavor <= 0 || self.texture <= 0 {
-            return 0
+            return 0;
         }
 
         self.capacity * self.durability * self.flavor * self.texture
@@ -49,14 +49,14 @@ impl Add<Self> for Ingredient {
             durability: self.durability + rhs.durability,
             flavor: self.flavor + rhs.flavor,
             texture: self.texture + rhs.texture,
-            calories: self.calories + rhs.calories
+            calories: self.calories + rhs.calories,
         }
     }
 }
 
 impl Sum for Ingredient {
-    fn sum<I: Iterator<Item=Self>>(iter: I) -> Self {
-        iter.fold(Ingredient::default(), |a, b| { a + b })
+    fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
+        iter.fold(Ingredient::default(), |a, b| a + b)
     }
 }
 
@@ -73,16 +73,18 @@ impl From<&'static str> for Ingredient {
             calories: 0,
         };
 
-        parts[1].split(", ").for_each(|part | {
+        parts[1].split(", ").for_each(|part| {
             let parts = part.split_once(' ').expect("a valid ingredient stat");
 
             match parts {
                 ("capacity", val) => ret.capacity = val.parse().expect("(capacity) a valid i8"),
-                ("durability", val) => ret.durability = val.parse().expect("(durability) a valid i8"),
+                ("durability", val) => {
+                    ret.durability = val.parse().expect("(durability) a valid i8")
+                }
                 ("flavor", val) => ret.flavor = val.parse().expect("(flavor) a valid i8"),
                 ("texture", val) => ret.texture = val.parse().expect("(texture) a valid i8"),
                 ("calories", val) => ret.calories = val.parse().expect("(calories) a valid i8"),
-                _ => panic!("unknown stat")
+                _ => panic!("unknown stat"),
             }
         });
 
@@ -96,7 +98,7 @@ fn rotate_array<T: Copy>(arr: &mut Vec<T>) {
     let arr_len = arr.len();
 
     if arr_len == 0 {
-        return
+        return;
     }
 
     let first = arr[0];
@@ -110,7 +112,9 @@ fn rotate_array<T: Copy>(arr: &mut Vec<T>) {
 /* ----------- */
 
 fn score(ingrs: &[Ingredient], proportions: &[usize]) -> i32 {
-    let mixed = ingrs.iter().enumerate()
+    let mixed = ingrs
+        .iter()
+        .enumerate()
         .map(|(idx, ingr)| ingr.values_for_teaspoons(proportions[idx] as i32))
         .sum::<Ingredient>();
 
@@ -139,9 +143,7 @@ fn all_proportions_score(ingrs: &[Ingredient], proportions: &[usize]) -> i32 {
 /* ----------- */
 
 fn main() {
-    let ingredients: Ingredients = utils::input_str!().lines()
-        .map(Ingredient::from)
-        .collect();
+    let ingredients: Ingredients = utils::input_str!().lines().map(Ingredient::from).collect();
     let mut max_score = 0;
 
     let mut proportions = Partitions::new(100);

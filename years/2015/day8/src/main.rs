@@ -10,15 +10,15 @@ const fn part1(input: &[u8]) -> usize {
     while cursor < len {
         match input[cursor] {
             b'"' => diff += 1,
-            b'\\' if matches!(input[cursor + 1], b'"' | b'\\') =>  {
+            b'\\' if matches!(input[cursor + 1], b'"' | b'\\') => {
                 diff += 1;
                 cursor += 1;
-            },
-            b'\\' if input[cursor + 1] == b'x' =>  {
+            }
+            b'\\' if input[cursor + 1] == b'x' => {
                 diff += 3;
                 cursor += 3;
-            },
-            _ => ()
+            }
+            _ => (),
         }
 
         cursor += 1;
@@ -43,7 +43,7 @@ const fn part2(input: &[u8]) -> usize {
                 cursor += 1;
             }
             b'\n' | b'\r' => diff += 2,
-            _ => ()
+            _ => (),
         }
 
         cursor += 1;

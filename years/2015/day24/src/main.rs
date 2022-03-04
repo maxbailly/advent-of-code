@@ -5,7 +5,7 @@ type Result = std::result::Result<(), ()>;
 #[derive(Debug)]
 struct IdealConfiguration {
     qe: u64,
-    count: usize
+    count: usize,
 }
 
 impl IdealConfiguration {
@@ -13,7 +13,7 @@ impl IdealConfiguration {
     fn new() -> Self {
         Self {
             qe: u64::MAX,
-            count: usize::MAX
+            count: usize::MAX,
         }
     }
 
@@ -21,7 +21,7 @@ impl IdealConfiguration {
         let grp_count = group.count();
 
         if self.count < grp_count {
-            return
+            return;
         }
 
         let grp_qe = group.qe();
@@ -46,7 +46,7 @@ impl IdealConfiguration {
 struct Group {
     items: Vec<u64>,
     target_weight: u64,
-    current_weight: u64
+    current_weight: u64,
 }
 
 impl Group {
@@ -55,7 +55,7 @@ impl Group {
         Self {
             items: Vec::with_capacity(cap),
             target_weight,
-            current_weight: 0
+            current_weight: 0,
         }
     }
 
@@ -69,7 +69,7 @@ impl Group {
 
     fn push(&mut self, item: u64) -> Result {
         if self.current_weight + item > self.target_weight {
-            return Err(())
+            return Err(());
         }
 
         self.current_weight += item;
@@ -88,10 +88,17 @@ impl Group {
 /* ---------- */
 
 fn get_all_configurations(pkgs: &[u64]) -> IdealConfiguration {
-    fn rec_find_configs(pkgs: &[u64], idx: usize, g1: &mut Group, g2: &mut Group, g3: &mut Group, conf: &mut IdealConfiguration) {
+    fn rec_find_configs(
+        pkgs: &[u64],
+        idx: usize,
+        g1: &mut Group,
+        g2: &mut Group,
+        g3: &mut Group,
+        conf: &mut IdealConfiguration,
+    ) {
         if idx == 0 {
             conf.apply(g1);
-            return
+            return;
         }
 
         if g1.push(pkgs[idx - 1]).is_ok() {
@@ -108,7 +115,7 @@ fn get_all_configurations(pkgs: &[u64]) -> IdealConfiguration {
             rec_find_configs(pkgs, idx - 1, g1, g2, g3, conf);
             g3.pop();
         }
-   }
+    }
 
     let total_weight = pkgs.iter().sum::<u64>();
 

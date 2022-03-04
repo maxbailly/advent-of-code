@@ -5,7 +5,7 @@ use std::collections::HashSet;
 #[derive(Debug, Default)]
 struct Transform {
     from: &'static str,
-    to: &'static str
+    to: &'static str,
 }
 
 impl Transform {
@@ -28,7 +28,7 @@ impl From<&'static str> for Transform {
 
         Self {
             from: parts[0],
-            to: parts[1]
+            to: parts[1],
         }
     }
 }
@@ -47,7 +47,8 @@ impl Molecule {
     fn replacements(&self, transform: Transform) -> Vec<String> {
         let needle_len = transform.from().len();
 
-        self.0.match_indices(transform.from())
+        self.0
+            .match_indices(transform.from())
             .map(|(index, _)| {
                 let mut new = self.0.clone();
                 new.replace_range(index..needle_len + index, transform.to());
@@ -82,7 +83,7 @@ fn main() {
         .for_each(|line| {
             if !line.contains(" => ") && mol.is_empty() {
                 mol = line.into();
-                return
+                return;
             }
 
             let transform: Transform = line.into();

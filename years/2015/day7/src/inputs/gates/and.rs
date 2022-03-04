@@ -4,7 +4,7 @@ use crate::Input;
 
 pub struct And {
     left: Box<dyn Input>,
-    right: Box<dyn Input>
+    right: Box<dyn Input>,
 }
 
 impl And {

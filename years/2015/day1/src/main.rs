@@ -1,13 +1,12 @@
 const INPUT: &[u8] = utils::input_bytes!();
 
 fn part1() -> i32 {
-    INPUT.iter()
-        .map(|c | {
-            match c {
-                b'(' => 1,
-                b')' => -1,
-                _ => 0
-            }
+    INPUT
+        .iter()
+        .map(|c| match c {
+            b'(' => 1,
+            b')' => -1,
+            _ => 0,
         })
         .sum::<i32>()
 }
@@ -21,11 +20,11 @@ fn part2() -> usize {
         match character {
             b'(' => position += 1,
             b')' => position -= 1,
-            _ => ()
+            _ => (),
         }
 
         if position == -1 {
-            return index + 1
+            return index + 1;
         }
     }
 

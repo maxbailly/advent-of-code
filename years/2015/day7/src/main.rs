@@ -30,7 +30,7 @@ fn assemble_circuit(line: &'static str, wires: &mut Wires) {
     let parts = line.split_ascii_whitespace().collect::<Vec<_>>();
     let output = match parts.last() {
         Some(part) => *part,
-        None => panic!("invalid line {line}")
+        None => panic!("invalid line {line}"),
     };
 
     let output = wires.entry(output);
@@ -85,9 +85,7 @@ fn assemble_circuit(line: &'static str, wires: &mut Wires) {
 /* ---------- */
 
 fn part1(wires: &mut Wires) -> u16 {
-    INPUT.lines().for_each(|line| {
-        assemble_circuit(line, wires)
-    });
+    INPUT.lines().for_each(|line| assemble_circuit(line, wires));
 
     let wire = wires.wire("a").expect("a existing wire id 'a'");
     wire.output().expect("a vaild output for 'a' wire")

@@ -57,8 +57,12 @@ fn main() {
     let part1_thread = thread::spawn(|| compute(STEPS_PART1));
     let part2_thread = thread::spawn(|| compute(STEPS_PART2));
 
-    let answer_p1 = part1_thread.join().expect("part 1 thread failed at some point");
-    let answer_p2 = part2_thread.join().expect("part 2 thread failed at some point");
+    let answer_p1 = part1_thread
+        .join()
+        .expect("part 1 thread failed at some point");
+    let answer_p2 = part2_thread
+        .join()
+        .expect("part 2 thread failed at some point");
 
     println!("[PART 1] Answer = {answer_p1}");
     println!("[PART 2] Answer = {answer_p2}");

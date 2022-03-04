@@ -4,7 +4,7 @@ use crate::Input;
 
 pub struct RightShift {
     left: Box<dyn Input>,
-    right: Box<dyn Input>
+    right: Box<dyn Input>,
 }
 
 impl RightShift {

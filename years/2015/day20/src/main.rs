@@ -14,7 +14,7 @@ fn find_elves(n: u32) -> Vec<u32> {
     for i in 2..max_range(n) {
         if n % i == 0 {
             ret.push(i);
-            if i*i != n {
+            if i * i != n {
                 large_div.push(n / i)
             }
         }

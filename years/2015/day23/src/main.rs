@@ -1,7 +1,7 @@
 #[derive(Debug)]
 enum Register {
     A,
-    B
+    B,
 }
 
 impl From<&str> for Register {
@@ -10,7 +10,7 @@ impl From<&str> for Register {
             Some('a') => Self::A,
             Some('b') => Self::B,
             Some(id) => panic!("bad register id : {}", id),
-            _ => panic!("empty string")
+            _ => panic!("empty string"),
         }
     }
 }
@@ -20,18 +20,20 @@ impl From<&str> for Register {
 #[derive(Debug)]
 enum Offset {
     Forward(usize),
-    Backward(usize)
+    Backward(usize),
 }
 
 impl From<&str> for Offset {
     fn from(off_str: &str) -> Self {
-        let off = off_str[1..].parse::<usize>().expect("a valid offset number");
+        let off = off_str[1..]
+            .parse::<usize>()
+            .expect("a valid offset number");
 
         match off_str.chars().next() {
             Some('+') => Self::Forward(off),
             Some('-') => Self::Backward(off),
             Some(sign) => panic!("bad offset : {}", sign),
-            _ => panic!("empty string")
+            _ => panic!("empty string"),
         }
     }
 }
@@ -45,7 +47,7 @@ enum Instruction {
     Triple(Register),
     Jump(Offset),
     JumpIfEven(Register, Offset),
-    JumpIfOne(Register, Offset)
+    JumpIfOne(Register, Offset),
 }
 
 /* ---------- */
@@ -55,7 +57,9 @@ struct Program(Vec<Instruction>);
 
 impl Program {
     fn compile(input: &'static str) -> Self {
-        let instructions = input.lines().map(|line| {
+        let instructions = input
+            .lines()
+            .map(|line| {
                 let parts = line.split(' ').collect::<Vec<&'static str>>();
 
                 match parts[0] {
@@ -63,9 +67,13 @@ impl Program {
                     "inc" => Instruction::Increment(Register::from(parts[1])),
                     "tpl" => Instruction::Triple(Register::from(parts[1])),
                     "jmp" => Instruction::Jump(Offset::from(parts[1])),
-                    "jie" => Instruction::JumpIfEven(Register::from(parts[1]), Offset::from(parts[2])),
-                    "jio" => Instruction::JumpIfOne(Register::from(parts[1]), Offset::from(parts[2])),
-                    _ => panic!("failed to parse {} as instruction", line)
+                    "jie" => {
+                        Instruction::JumpIfEven(Register::from(parts[1]), Offset::from(parts[2]))
+                    }
+                    "jio" => {
+                        Instruction::JumpIfOne(Register::from(parts[1]), Offset::from(parts[2]))
+                    }
+                    _ => panic!("failed to parse {} as instruction", line),
                 }
             })
             .collect();
@@ -84,7 +92,7 @@ impl Program {
 struct Computer {
     ra: usize,
     rb: usize,
-    instr_counter: usize
+    instr_counter: usize,
 }
 
 impl Computer {
@@ -113,7 +121,7 @@ impl Computer {
     fn half(&mut self, reg: &Register) {
         match reg {
             Register::A => self.ra /= 2,
-            Register::B => self.rb /= 2
+            Register::B => self.rb /= 2,
         }
 
         self.instr_counter += 1;
@@ -122,7 +130,7 @@ impl Computer {
     fn increment(&mut self, reg: &Register) {
         match reg {
             Register::A => self.ra += 1,
-            Register::B => self.rb += 1
+            Register::B => self.rb += 1,
         }
 
         self.instr_counter += 1;
@@ -131,7 +139,7 @@ impl Computer {
     fn triple(&mut self, reg: &Register) {
         match reg {
             Register::A => self.ra *= 3,
-            Register::B => self.rb *= 3
+            Register::B => self.rb *= 3,
         }
 
         self.instr_counter += 1;
@@ -140,14 +148,14 @@ impl Computer {
     fn jump(&mut self, off: &Offset) {
         match off {
             Offset::Forward(val) => self.instr_counter += val,
-            Offset::Backward(val) => self.instr_counter -= val
+            Offset::Backward(val) => self.instr_counter -= val,
         }
     }
 
     fn jump_if_even(&mut self, reg: &Register, off: &Offset) {
         let reg_val = match reg {
             Register::A => self.ra,
-            Register::B => self.rb
+            Register::B => self.rb,
         };
 
         if reg_val % 2 != 0 {
@@ -157,14 +165,14 @@ impl Computer {
 
         match off {
             Offset::Forward(val) => self.instr_counter += val,
-            Offset::Backward(val) => self.instr_counter -= val
+            Offset::Backward(val) => self.instr_counter -= val,
         }
     }
 
     fn jump_if_one(&mut self, reg: &Register, off: &Offset) {
         let reg_val = match reg {
             Register::A => self.ra,
-            Register::B => self.rb
+            Register::B => self.rb,
         };
 
         if reg_val != 1 {
@@ -174,7 +182,7 @@ impl Computer {
 
         match off {
             Offset::Forward(val) => self.instr_counter += val,
-            Offset::Backward(val) => self.instr_counter -= val
+            Offset::Backward(val) => self.instr_counter -= val,
         }
     }
 }

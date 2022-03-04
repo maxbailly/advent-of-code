@@ -9,7 +9,7 @@ const OUR_AUNT: Aunt = Aunt {
     goldfish: Some(5),
     trees: Some(3),
     cars: Some(2),
-    perfumes: Some(1)
+    perfumes: Some(1),
 };
 
 /* ---------- */
@@ -26,7 +26,7 @@ struct Aunt {
     goldfish: Option<u8>,
     trees: Option<u8>,
     cars: Option<u8>,
-    perfumes: Option<u8>
+    perfumes: Option<u8>,
 }
 
 impl Aunt {
@@ -42,7 +42,7 @@ impl Aunt {
             goldfish: None,
             trees: None,
             cars: None,
-            perfumes: None
+            perfumes: None,
         }
     }
 }
@@ -50,9 +50,13 @@ impl Aunt {
 impl From<&str> for Aunt {
     fn from(line: &str) -> Self {
         let parts = line.split_once(": ").expect("failed to split id from desc");
-        let id = parts.0.split_once(' ')
-            .expect("failed to get aunt id").1
-            .parse().expect("failed to parse aunt id");
+        let id = parts
+            .0
+            .split_once(' ')
+            .expect("failed to get aunt id")
+            .1
+            .parse()
+            .expect("failed to parse aunt id");
         let mut aunt = Self::new(id);
 
         parts.1.split(", ").for_each(|desc| {
@@ -81,7 +85,9 @@ impl From<&str> for Aunt {
 /* ---------- */
 
 fn main() {
-    utils::input_str!().lines().map(Aunt::from)
+    utils::input_str!()
+        .lines()
+        .map(Aunt::from)
         .filter(|aunt| aunt.children == OUR_AUNT.children || aunt.children.is_none())
         .filter(|aunt| aunt.cats == OUR_AUNT.cats || aunt.cats.is_none())
         .filter(|aunt| aunt.samoyeds == OUR_AUNT.samoyeds || aunt.samoyeds.is_none())

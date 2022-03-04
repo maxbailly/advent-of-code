@@ -10,15 +10,12 @@ const EGGNOG_AMOUNT: u8 = 150;
 #[derive(Hash, PartialEq, Eq, Clone)]
 struct Container {
     id: usize,
-    quantity: u8
+    quantity: u8,
 }
 
 impl Container {
     fn new(id: usize, quantity: u8) -> Self {
-        Self {
-            id,
-            quantity
-        }
+        Self { id, quantity }
     }
 
     fn quantity(&self) -> u8 {
@@ -36,7 +33,7 @@ impl std::fmt::Debug for Container {
 
 fn equal<T>(a: &[T], b: &[T]) -> bool
 where
-    T: Eq + Hash
+    T: Eq + Hash,
 {
     let a: HashSet<_> = a.iter().collect();
     let b: HashSet<_> = b.iter().collect();
@@ -68,7 +65,9 @@ fn count_combinaisons(containers: &mut Vec<Container>, amount: u8) -> usize {
 
                 try_combinaisons(containers, amount - quantity, combinaisons, selection);
 
-                let container = selection.pop().expect("failed to pop last container selected");
+                let container = selection
+                    .pop()
+                    .expect("failed to pop last container selected");
                 containers.insert(idx, container);
             }
         }
@@ -85,7 +84,8 @@ fn count_combinaisons(containers: &mut Vec<Container>, amount: u8) -> usize {
 /* ---------- */
 
 fn main() {
-    let mut containers: Vec<Container> = utils::input_str!().lines()
+    let mut containers: Vec<Container> = utils::input_str!()
+        .lines()
         .enumerate()
         .map(|(id, line)| {
             let quantity = line.parse().expect("failed to parse container size");

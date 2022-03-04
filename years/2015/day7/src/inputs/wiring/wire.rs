@@ -5,7 +5,7 @@ use crate::Input;
 pub struct Wire {
     id: &'static str,
     input: Option<Box<dyn Input>>,
-    output: Option<u16>
+    output: Option<u16>,
 }
 
 impl Wire {
@@ -14,7 +14,7 @@ impl Wire {
         Self {
             id,
             input: None,
-            output: None
+            output: None,
         }
     }
 
@@ -48,15 +48,13 @@ impl Debug for Wire {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         let input_str = match &self.input {
             Some(input) => input.dbg_string(),
-            None => String::from("None")
+            None => String::from("None"),
         };
 
         write!(
             f,
             "Wire {{ id: {}, input: {:?}, output: {:?}}}",
-            self.id,
-            input_str,
-            self.output
+            self.id, input_str, self.output
         )
     }
 }

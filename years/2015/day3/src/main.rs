@@ -6,7 +6,7 @@ enum Direction {
     North,
     East,
     South,
-    West
+    West,
 }
 
 impl From<u8> for Direction {
@@ -16,7 +16,7 @@ impl From<u8> for Direction {
             b'>' => Self::East,
             b'v' => Self::South,
             b'<' => Self::West,
-            _ => panic!("expected a valid direction")
+            _ => panic!("expected a valid direction"),
         }
     }
 }
@@ -28,7 +28,7 @@ impl From<&u8> for Direction {
             b'>' => Self::East,
             b'v' => Self::South,
             b'<' => Self::West,
-            _ => panic!("expected a valid direction {:?}", dir)
+            _ => panic!("expected a valid direction {:?}", dir),
         }
     }
 }
@@ -74,14 +74,14 @@ impl Position {
 
 enum Turn {
     Santa,
-    RoboSanta
+    RoboSanta,
 }
 
 impl Turn {
     fn next(&mut self) {
         *self = match self {
             Self::Santa => Self::RoboSanta,
-            Self::RoboSanta => Self::Santa
+            Self::RoboSanta => Self::Santa,
         }
     }
 }
@@ -96,9 +96,11 @@ impl Default for Turn {
 
 fn part1() -> usize {
     let mut pos = Position::default();
-    let mut visited =  Vec::<Position>::with_capacity(INPUT.len() + 1);
+    let mut visited = Vec::<Position>::with_capacity(INPUT.len() + 1);
 
-    INPUT.iter().filter(|c| matches!(c, b'^' | b'>' | b'v' | b'<'))
+    INPUT
+        .iter()
+        .filter(|c| matches!(c, b'^' | b'>' | b'v' | b'<'))
         .map(Direction::from)
         .for_each(|dir| {
             pos.move_direction(dir);
@@ -116,7 +118,7 @@ fn part2() -> usize {
     let mut turn = Turn::default();
     let mut santa_pos = Position::default();
     let mut robo_santa_pos = Position::default();
-    let mut visited =  Vec::<Position>::with_capacity(INPUT.len() + 1);
+    let mut visited = Vec::<Position>::with_capacity(INPUT.len() + 1);
 
     #[inline(always)]
     fn internal_move(pos: &mut Position, visited: &mut Vec<Position>, dir: Direction) {
@@ -127,12 +129,14 @@ fn part2() -> usize {
         }
     }
 
-    INPUT.iter().filter(|c| matches!(c, b'^' | b'>' | b'v' | b'<'))
+    INPUT
+        .iter()
+        .filter(|c| matches!(c, b'^' | b'>' | b'v' | b'<'))
         .map(Direction::from)
         .for_each(|dir| {
             match turn {
                 Turn::Santa => internal_move(&mut santa_pos, &mut visited, dir),
-                Turn::RoboSanta => internal_move(&mut robo_santa_pos, &mut visited, dir)
+                Turn::RoboSanta => internal_move(&mut robo_santa_pos, &mut visited, dir),
             }
 
             turn.next()

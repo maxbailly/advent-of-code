@@ -1,9 +1,44 @@
 const SPELLS: &[Spell] = &[
-    Spell { name: "Magic Missile", cost: 53, damage: 4, self_heal: 0, effect: None, target: Target::Other },
-    Spell { name: "Drain", cost: 73, damage: 2, self_heal: 2, effect: None, target: Target::Other },
-    Spell { name: "Shield", cost: 113, damage: 0, self_heal: 0, effect: Some(SHIELD), target: Target::Itself },
-    Spell { name: "Poison", cost: 173, damage: 0, self_heal: 0, effect: Some(DMG_OVER_TIME), target: Target::Other },
-    Spell { name: "Mana Regen", cost: 229, damage: 0, self_heal: 0, effect: Some(MANA_REGEN), target: Target::Itself },
+    Spell {
+        name: "Magic Missile",
+        cost: 53,
+        damage: 4,
+        self_heal: 0,
+        effect: None,
+        target: Target::Other,
+    },
+    Spell {
+        name: "Drain",
+        cost: 73,
+        damage: 2,
+        self_heal: 2,
+        effect: None,
+        target: Target::Other,
+    },
+    Spell {
+        name: "Shield",
+        cost: 113,
+        damage: 0,
+        self_heal: 0,
+        effect: Some(SHIELD),
+        target: Target::Itself,
+    },
+    Spell {
+        name: "Poison",
+        cost: 173,
+        damage: 0,
+        self_heal: 0,
+        effect: Some(DMG_OVER_TIME),
+        target: Target::Other,
+    },
+    Spell {
+        name: "Mana Regen",
+        cost: 229,
+        damage: 0,
+        self_heal: 0,
+        effect: Some(MANA_REGEN),
+        target: Target::Itself,
+    },
 ];
 
 const SHIELD: Effect = Effect::Shield(7, 6);
@@ -44,23 +79,19 @@ enum Target {
 enum Effect {
     Shield(i16, u8),
     ManaRegen(i16, u8),
-    DmgOverTime(i16, u8)
+    DmgOverTime(i16, u8),
 }
 
 impl Effect {
     fn ticks(&self) -> u8 {
         match self {
-            Self::Shield(_, t) | Self::ManaRegen(_, t) | Self::DmgOverTime(_, t) => {
-                *t
-            }
+            Self::Shield(_, t) | Self::ManaRegen(_, t) | Self::DmgOverTime(_, t) => *t,
         }
     }
 
     fn decrement_ticks(&mut self) {
         match self {
-            Self::Shield(_, t) | Self::ManaRegen(_, t) | Self::DmgOverTime(_, t) => {
-                *t -= 1
-            }
+            Self::Shield(_, t) | Self::ManaRegen(_, t) | Self::DmgOverTime(_, t) => *t -= 1,
         }
     }
 }
@@ -69,9 +100,9 @@ impl PartialEq for Effect {
     fn eq(&self, other: &Self) -> bool {
         matches!(
             (self, other),
-            (Self::Shield(_, _), Self::Shield(_, _)) |
-            (Self::ManaRegen(_, _), Self::ManaRegen(_, _)) |
-            (Self::DmgOverTime(_, _), Self::DmgOverTime(_, _))
+            (Self::Shield(_, _), Self::Shield(_, _))
+                | (Self::ManaRegen(_, _), Self::ManaRegen(_, _))
+                | (Self::DmgOverTime(_, _), Self::DmgOverTime(_, _))
         )
     }
 }
@@ -85,7 +116,7 @@ struct Spell {
     pub damage: i16,
     pub self_heal: i16,
     pub effect: Option<Effect>,
-    pub target: Target
+    pub target: Target,
 }
 
 impl std::fmt::Display for Spell {
@@ -103,7 +134,7 @@ struct Entity {
     mana: i16,
     damage: i16,
     armor: i16,
-    effects: [Option<Effect>; MAX_EFFECTS]
+    effects: [Option<Effect>; MAX_EFFECTS],
 }
 
 impl Entity {
@@ -114,30 +145,42 @@ impl Entity {
             mana,
             damage,
             armor,
-            effects: [None; MAX_EFFECTS]
+            effects: [None; MAX_EFFECTS],
         }
     }
 
     #[inline(always)]
     fn attacks(&self, target: &mut Self) {
-        target.hp -= if target.armor >= self.damage { 1 } else { self.damage - target.armor };
+        target.hp -= if target.armor >= self.damage {
+            1
+        } else {
+            self.damage - target.armor
+        };
     }
 
     #[inline(always)]
     fn can_cast(&self, spell: &Spell, target: &Self) -> Result<(), Err> {
         if self.mana < spell.cost {
-            return Err(Err::OutOfMana)
+            return Err(Err::OutOfMana);
         }
 
         if let Some(effect) = &spell.effect {
             return match spell.target {
                 Target::Itself => {
-                    if self.is_effect_applied(effect) { Err(Err::EffectAlreadyApplied) } else { Ok(()) }
+                    if self.is_effect_applied(effect) {
+                        Err(Err::EffectAlreadyApplied)
+                    } else {
+                        Ok(())
+                    }
                 }
                 Target::Other => {
-                    if target.is_effect_applied(effect) { Err(Err::EffectAlreadyApplied) } else { Ok(()) }
+                    if target.is_effect_applied(effect) {
+                        Err(Err::EffectAlreadyApplied)
+                    } else {
+                        Ok(())
+                    }
                 }
-            }
+            };
         }
 
         Ok(())
@@ -169,13 +212,17 @@ impl Entity {
 
     #[inline(always)]
     fn is_effect_applied(&self, effect: &Effect) -> bool {
-        self.effects.iter()
+        self.effects
+            .iter()
             .filter(|eff| eff.is_some())
             .any(|eff| eff.expect("a valid effect") == *effect)
     }
 
     fn apply_effect(&mut self, effect: Effect) {
-        let eff = self.effects.iter_mut().find(|eff| eff.is_none())
+        let eff = self
+            .effects
+            .iter_mut()
+            .find(|eff| eff.is_none())
             .expect("expected at least one free effect spot");
         let effect = eff.insert(effect);
 
@@ -192,7 +239,7 @@ impl Entity {
                 match eff {
                     Effect::ManaRegen(mana_regen, _) => self.mana += *mana_regen,
                     Effect::DmgOverTime(dmg, _) => self.hp -= *dmg,
-                    _ => ()
+                    _ => (),
                 }
 
                 eff.decrement_ticks();
@@ -213,7 +260,11 @@ impl Entity {
 
 impl std::fmt::Display for Entity {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "- {} has {} hp, {} mana, {} armor", self.name, self.hp, self.mana, self.armor)
+        write!(
+            f,
+            "- {} has {} hp, {} mana, {} armor",
+            self.name, self.hp, self.mana, self.armor
+        )
     }
 }
 
@@ -222,7 +273,7 @@ impl std::fmt::Display for Entity {
 #[derive(Debug)]
 enum Turn {
     Player,
-    Boss
+    Boss,
 }
 
 impl Turn {
@@ -238,14 +289,20 @@ impl std::fmt::Display for Turn {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
             Self::Boss => write!(f, "Boss"),
-            Self::Player => write!(f, "Player")
+            Self::Player => write!(f, "Player"),
         }
     }
 }
 
 /* ---------- */
 
-fn sim(turn: Turn, mut player: Entity, mut boss: Entity, mana_spent: i16, min_mana_spent: &mut i16) {
+fn sim(
+    turn: Turn,
+    mut player: Entity,
+    mut boss: Entity,
+    mana_spent: i16,
+    min_mana_spent: &mut i16,
+) {
     player.update_effects();
     boss.update_effects();
 
@@ -265,17 +322,21 @@ fn sim(turn: Turn, mut player: Entity, mut boss: Entity, mana_spent: i16, min_ma
             boss.attacks(&mut player);
             sim(turn.next(), player, boss, mana_spent, min_mana_spent);
         }
-        Turn::Player => {
-            SPELLS.iter().for_each(|spell| {
-                if mana_spent + spell.cost < *min_mana_spent && player.can_cast(spell, &boss).is_ok() {
-                    let mut tmp_player = player;
-                    let mut tmp_boss = boss;
+        Turn::Player => SPELLS.iter().for_each(|spell| {
+            if mana_spent + spell.cost < *min_mana_spent && player.can_cast(spell, &boss).is_ok() {
+                let mut tmp_player = player;
+                let mut tmp_boss = boss;
 
-                    tmp_player.casts(spell, &mut tmp_boss);
-                    sim(turn.next(), tmp_player, tmp_boss, mana_spent + spell.cost, min_mana_spent);
-                }
-            })
-        }
+                tmp_player.casts(spell, &mut tmp_boss);
+                sim(
+                    turn.next(),
+                    tmp_player,
+                    tmp_boss,
+                    mana_spent + spell.cost,
+                    min_mana_spent,
+                );
+            }
+        }),
     }
 }
 
@@ -284,7 +345,7 @@ fn sim(turn: Turn, mut player: Entity, mut boss: Entity, mana_spent: i16, min_ma
 fn main() {
     let boss = Entity::new("Boss", 71, 10, 0, 0);
     let player = Entity::new("Player", 50, 0, 500, 0);
-    let turn  = Turn::Player;
+    let turn = Turn::Player;
     let mut min_mana_spent = i16::MAX;
 
     sim(turn, player, boss, 0, &mut min_mana_spent);

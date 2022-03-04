@@ -7,7 +7,7 @@ const fn inc_char(c: u8) -> (u8, bool) {
     match c {
         b'z' => (b'a', true),
         b'h' | b'k' | b'n' => (c + 2, false),
-        _ => (c + 1, false)
+        _ => (c + 1, false),
     }
 }
 
@@ -47,7 +47,7 @@ fn increment_passwd(passwd: &[u8]) -> String {
 struct Password {
     inner: String,
     nb_pairs: u8,
-    has_inc_straight: bool
+    has_inc_straight: bool,
 }
 
 impl Password {
@@ -94,7 +94,7 @@ impl From<&str> for Password {
         Self {
             inner: String::from(passwd),
             nb_pairs: 0,
-            has_inc_straight: false
+            has_inc_straight: false,
         }
     }
 }

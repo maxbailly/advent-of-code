@@ -1,4 +1,3 @@
-
 const fn count_occurence(needle: &[u8], haystack: &[u8]) -> usize {
     let len = haystack.len() - 1;
     let mut idx = 0usize;
@@ -43,14 +42,14 @@ impl StringType {
                 b'd' if *prev == b'c' => return Self::Naughty,
                 b'q' if *prev == b'p' => return Self::Naughty,
                 b'y' if *prev == b'x' => return Self::Naughty,
-                _ => ()
+                _ => (),
             }
 
             prev = c;
         }
 
         if vowels < 3 || !double {
-            return Self::Naughty
+            return Self::Naughty;
         }
 
         Self::Nice
@@ -78,7 +77,7 @@ impl StringType {
             }
 
             if pair_found_twice && in_between {
-                return Self::Nice
+                return Self::Nice;
             }
         }
 
@@ -89,7 +88,8 @@ impl StringType {
 /* ---------- */
 
 fn part1(input: &'static str) -> usize {
-    input.lines()
+    input
+        .lines()
         .map(StringType::from_using_part1_rules)
         .filter(|str_type| matches!(str_type, StringType::Nice))
         .count()
@@ -98,7 +98,8 @@ fn part1(input: &'static str) -> usize {
 /* ---------- */
 
 fn part2(input: &'static str) -> usize {
-    input.lines()
+    input
+        .lines()
         .map(StringType::from_using_part2_rules)
         .filter(|str_type| matches!(str_type, StringType::Nice))
         .count()
@@ -119,18 +120,42 @@ mod test {
 
     #[test]
     fn test_part1() {
-        assert_eq!(StringType::from_using_part1_rules("ugknbfddgicrmopn"), StringType::Nice);
+        assert_eq!(
+            StringType::from_using_part1_rules("ugknbfddgicrmopn"),
+            StringType::Nice
+        );
         assert_eq!(StringType::from_using_part1_rules("aaa"), StringType::Nice);
-        assert_eq!(StringType::from_using_part1_rules("jchzalrnumimnmhp"), StringType::Naughty);
-        assert_eq!(StringType::from_using_part1_rules("haegwjzuvuyypxyu"), StringType::Naughty);
-        assert_eq!(StringType::from_using_part1_rules("dvszwmarrgswjxmb"), StringType::Naughty);
+        assert_eq!(
+            StringType::from_using_part1_rules("jchzalrnumimnmhp"),
+            StringType::Naughty
+        );
+        assert_eq!(
+            StringType::from_using_part1_rules("haegwjzuvuyypxyu"),
+            StringType::Naughty
+        );
+        assert_eq!(
+            StringType::from_using_part1_rules("dvszwmarrgswjxmb"),
+            StringType::Naughty
+        );
     }
 
     #[test]
     fn test_part2() {
-        assert_eq!(StringType::from_using_part2_rules("qjhvhtzxzqqjkmpb"), StringType::Nice);
-        assert_eq!(StringType::from_using_part2_rules("xxyxx"), StringType::Nice);
-        assert_eq!(StringType::from_using_part2_rules("uurcxstgmygtbstg"), StringType::Naughty);
-        assert_eq!(StringType::from_using_part2_rules("ieodomkazucvgmuy"), StringType::Naughty);
+        assert_eq!(
+            StringType::from_using_part2_rules("qjhvhtzxzqqjkmpb"),
+            StringType::Nice
+        );
+        assert_eq!(
+            StringType::from_using_part2_rules("xxyxx"),
+            StringType::Nice
+        );
+        assert_eq!(
+            StringType::from_using_part2_rules("uurcxstgmygtbstg"),
+            StringType::Naughty
+        );
+        assert_eq!(
+            StringType::from_using_part2_rules("ieodomkazucvgmuy"),
+            StringType::Naughty
+        );
     }
 }

@@ -12,7 +12,7 @@ const BOSS: Entity = Entity::new(100, 8, 2);
 struct Stats {
     pub hp: u8,
     pub damage: u8,
-    pub armor: u8
+    pub armor: u8,
 }
 
 impl Stats {
@@ -25,7 +25,7 @@ impl Stats {
 
         match self.hp % dmg {
             0 => max_hits,
-            _ => max_hits + 1
+            _ => max_hits + 1,
         }
     }
 
@@ -38,7 +38,7 @@ impl Stats {
 
         match self.hp % turns {
             0 => dmg,
-            _ => dmg + 1
+            _ => dmg + 1,
         }
     }
 }
@@ -49,7 +49,7 @@ impl Add<Self> for Stats {
         Self {
             hp: self.hp + other.hp,
             damage: self.damage + other.damage,
-            armor: self.armor + other.armor
+            armor: self.armor + other.armor,
         }
     }
 }
@@ -60,7 +60,7 @@ impl Add<&Self> for Stats {
         Self {
             hp: self.hp + other.hp,
             damage: self.damage + other.damage,
-            armor: self.armor + other.armor
+            armor: self.armor + other.armor,
         }
     }
 }
@@ -80,7 +80,7 @@ struct Item {
     pub name: String,
     pub cost: u8,
     pub damage: u8,
-    pub armor: u8
+    pub armor: u8,
 }
 
 impl Item {
@@ -88,7 +88,7 @@ impl Item {
         Stats {
             hp: 0,
             damage: self.damage,
-            armor: self.armor
+            armor: self.armor,
         }
     }
 }
@@ -98,10 +98,7 @@ impl std::fmt::Debug for Item {
         write!(
             f,
             "Item (name: {}, cost: {}, dmg: {}, arm: {})",
-            self.name,
-            self.cost,
-            self.damage,
-            self.armor
+            self.name, self.cost, self.damage, self.armor
         )
     }
 }
@@ -116,11 +113,16 @@ impl std::fmt::Display for Item {
 
 struct InventoryStats {
     cost: u16,
-    stats: Stats
+    stats: Stats,
 }
 
 impl InventoryStats {
-    fn new(weapon: &Item, armor: Option<&Item>, rring: Option<&Item>, lring: Option<&Item>) -> Self {
+    fn new(
+        weapon: &Item,
+        armor: Option<&Item>,
+        rring: Option<&Item>,
+        lring: Option<&Item>,
+    ) -> Self {
         let mut stats = weapon.stats();
         let mut cost = weapon.cost as u16;
 
@@ -139,10 +141,7 @@ impl InventoryStats {
             cost += ring.cost as u16
         }
 
-        Self {
-            cost,
-            stats
-        }
+        Self { cost, stats }
     }
 
     fn stats(&self) -> &Stats {
@@ -154,10 +153,14 @@ impl InventoryStats {
     }
 }
 
-
 impl std::fmt::Debug for InventoryStats {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "cost: {}, stats: {}", self.cost, self.stats.total_dmg_relative_stats())
+        write!(
+            f,
+            "cost: {}, stats: {}",
+            self.cost,
+            self.stats.total_dmg_relative_stats()
+        )
     }
 }
 
@@ -165,33 +168,33 @@ impl std::fmt::Debug for InventoryStats {
 
 struct Entity {
     base_stats: Stats,
-    inventory: Option<InventoryStats>
+    inventory: Option<InventoryStats>,
 }
 
 impl Entity {
     const fn new(hp: u8, damage: u8, armor: u8) -> Self {
         Self {
             base_stats: Stats::new(hp, damage, armor),
-            inventory: None
+            inventory: None,
         }
     }
 
     fn resistance(&self, dmg: u8) -> u8 {
         match &self.inventory {
             Some(inv) => (self.base_stats + inv.stats()).resistance(dmg),
-            None => self.base_stats.resistance(dmg)
+            None => self.base_stats.resistance(dmg),
         }
     }
 
     fn stats_required_to_kill_in_turns(&self, turns: u8) -> u8 {
         match &self.inventory {
             Some(inv) => (self.base_stats + inv.stats()).dmg_required(turns),
-            None => self.base_stats.dmg_required(turns)
+            None => self.base_stats.dmg_required(turns),
         }
     }
 
     fn damage(&self) -> u8 {
-        let mut dmg  = self.base_stats.damage;
+        let mut dmg = self.base_stats.damage;
 
         if let Some(inv) = &self.inventory {
             dmg += inv.stats().damage
@@ -207,7 +210,7 @@ impl Entity {
 struct Shop {
     weapons: Vec<Item>,
     armor: Vec<Item>,
-    rings: Vec<Item>
+    rings: Vec<Item>,
 }
 
 impl Shop {
@@ -218,10 +221,15 @@ impl Shop {
             for r in 0..self.rings.len() {
                 for l in 0..self.rings.len() {
                     if l == r {
-                        continue
+                        continue;
                     }
 
-                    let inv_stats = InventoryStats::new(weap, armor, Some(&self.rings[r]), Some(&self.rings[l]));
+                    let inv_stats = InventoryStats::new(
+                        weap,
+                        armor,
+                        Some(&self.rings[r]),
+                        Some(&self.rings[l]),
+                    );
                     if stats <= inv_stats.stats().total_dmg_relative_stats() {
                         combs.push(inv_stats)
                     }
@@ -242,7 +250,7 @@ impl Shop {
             }
             rings_loop(weap, None, &mut combinaisons);
 
-            let inv_stats = InventoryStats::new(weap, None,None, None);
+            let inv_stats = InventoryStats::new(weap, None, None, None);
             if stats <= inv_stats.stats().total_dmg_relative_stats() {
                 combinaisons.push(inv_stats)
             }
@@ -254,7 +262,8 @@ impl Shop {
     fn find_cheapest_stuff_cost(&self, stats: u8) -> u16 {
         let combs = self.generate_all_inv_combinaisons_with_higher_stats(stats);
 
-        combs.iter()
+        combs
+            .iter()
             .map(|inv_stats| inv_stats.cost())
             .min()
             .expect("expected a valid stuff cost")

@@ -3,7 +3,8 @@ pub trait Input {
     fn dbg_string(&self) -> String;
 
     fn into_input(self) -> Box<dyn Input>
-        where Self: Sized + 'static
+    where
+        Self: Sized + 'static,
     {
         Box::new(self)
     }

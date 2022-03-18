@@ -7,4 +7,5 @@ edition = "2021"
 
 [dependencies]
 utils = { path = "../../../utils" }
-integer-partitions = "^0.1"
+kombini = { git = "https://github.com/Caelmyn/testing-random-stuff-in-rust"}
+partitions = { git = "https://github.com/Caelmyn/testing-random-stuff-in-rust"}

@@ -84,10 +84,8 @@ impl From<&str> for Aunt {
 
 /* ---------- */
 
-fn main() {
-    utils::input_str!()
-        .lines()
-        .map(Aunt::from)
+fn part1(aunts: &[Aunt]) -> u16 {
+    aunts.iter()
         .filter(|aunt| aunt.children == OUR_AUNT.children || aunt.children.is_none())
         .filter(|aunt| aunt.cats == OUR_AUNT.cats || aunt.cats.is_none())
         .filter(|aunt| aunt.samoyeds == OUR_AUNT.samoyeds || aunt.samoyeds.is_none())
@@ -98,5 +96,36 @@ fn main() {
         .filter(|aunt| aunt.trees == OUR_AUNT.trees || aunt.trees.is_none())
         .filter(|aunt| aunt.cars == OUR_AUNT.cars || aunt.cars.is_none())
         .filter(|aunt| aunt.perfumes == OUR_AUNT.perfumes || aunt.perfumes.is_none())
-        .for_each(|aunt| println!("result = {}", aunt.id));
+        .collect::<Vec<&Aunt>>()
+        .first()
+        .expect("expected an aunt")
+        .id
+}
+
+/* ---------- */
+
+fn part2(aunts: &[Aunt]) -> u16 {
+    aunts.iter()
+        .filter(|aunt| aunt.children == OUR_AUNT.children || aunt.children.is_none())
+        .filter(|aunt| aunt.cats > OUR_AUNT.cats || aunt.cats.is_none())
+        .filter(|aunt| aunt.samoyeds == OUR_AUNT.samoyeds || aunt.samoyeds.is_none())
+        .filter(|aunt| aunt.pomeranians < OUR_AUNT.pomeranians || aunt.pomeranians.is_none())
+        .filter(|aunt| aunt.akitas == OUR_AUNT.akitas || aunt.akitas.is_none())
+        .filter(|aunt| aunt.vizslas == OUR_AUNT.vizslas || aunt.vizslas.is_none())
+        .filter(|aunt| aunt.goldfish < OUR_AUNT.goldfish || aunt.goldfish.is_none())
+        .filter(|aunt| aunt.trees > OUR_AUNT.trees || aunt.trees.is_none())
+        .filter(|aunt| aunt.cars == OUR_AUNT.cars || aunt.cars.is_none())
+        .filter(|aunt| aunt.perfumes == OUR_AUNT.perfumes || aunt.perfumes.is_none())
+        .collect::<Vec<&Aunt>>()
+        .first()
+        .expect("expected an aunt")
+        .id
+}
+
+/* ---------- */
+
+fn main() {
+    let tatans = utils::input_str!().lines().map(Aunt::from).collect::<Vec<Aunt>>();
+
+    utils::answer!(&tatans)
 }

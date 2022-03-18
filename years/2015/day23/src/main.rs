@@ -101,8 +101,18 @@ impl Computer {
         Self::default()
     }
 
-    fn breg(&self) -> usize {
-        self.rb
+    fn reg(&self, reg: Register) -> usize {
+        match reg {
+            Register::A => self.ra,
+            Register::B => self.rb
+        }
+    }
+
+    fn set_reg(&mut self, reg: Register, val: usize) {
+        match reg {
+            Register::A => self.ra = val,
+            Register::B => self.rb = val,
+        }
     }
 
     fn run(&mut self, prog: &Program) {
@@ -189,11 +199,28 @@ impl Computer {
 
 /* ---------- */
 
-fn main() {
-    let program = Program::compile(utils::input_str!());
+fn part1(prog: &Program) -> usize {
     let mut comp = Computer::new();
 
-    comp.run(&program);
+    comp.run(prog);
+    comp.reg(Register::B)
+}
 
-    println!("result = {}", comp.breg());
+/* ---------- */
+
+fn part2(prog: &Program) -> usize {
+    let mut comp = Computer::new();
+
+    comp.set_reg(Register::A, 1);
+
+    comp.run(prog);
+    comp.reg(Register::B)
+}
+
+/* ---------- */
+
+fn main() {
+    let program = Program::compile(utils::input_str!());
+
+    utils::answer!(&program)
 }

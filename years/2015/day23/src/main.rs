@@ -104,7 +104,7 @@ impl Computer {
     fn reg(&self, reg: Register) -> usize {
         match reg {
             Register::A => self.ra,
-            Register::B => self.rb
+            Register::B => self.rb,
         }
     }
 

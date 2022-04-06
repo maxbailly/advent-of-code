@@ -119,8 +119,7 @@ fn part1() -> usize {
         next = std::mem::replace(&mut prev, next);
     }
 
-    prev
-        .iter()
+    prev.iter()
         .filter(|light| matches!(light, LightState::On))
         .count()
 }
@@ -149,13 +148,11 @@ fn part2() -> usize {
     next[BOT_RIGHT_ID] = LightState::On;
 
     for _ in 0..STEPS {
-
         next_step(&prev, &mut next, Part::Two);
         next = std::mem::replace(&mut prev, next);
     }
 
-    prev
-        .iter()
+    prev.iter()
         .filter(|light| matches!(light, LightState::On))
         .count()
 }

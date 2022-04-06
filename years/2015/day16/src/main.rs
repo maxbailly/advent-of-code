@@ -85,7 +85,8 @@ impl From<&str> for Aunt {
 /* ---------- */
 
 fn part1(aunts: &[Aunt]) -> u16 {
-    aunts.iter()
+    aunts
+        .iter()
         .filter(|aunt| aunt.children == OUR_AUNT.children || aunt.children.is_none())
         .filter(|aunt| aunt.cats == OUR_AUNT.cats || aunt.cats.is_none())
         .filter(|aunt| aunt.samoyeds == OUR_AUNT.samoyeds || aunt.samoyeds.is_none())
@@ -105,7 +106,8 @@ fn part1(aunts: &[Aunt]) -> u16 {
 /* ---------- */
 
 fn part2(aunts: &[Aunt]) -> u16 {
-    aunts.iter()
+    aunts
+        .iter()
         .filter(|aunt| aunt.children == OUR_AUNT.children || aunt.children.is_none())
         .filter(|aunt| aunt.cats > OUR_AUNT.cats || aunt.cats.is_none())
         .filter(|aunt| aunt.samoyeds == OUR_AUNT.samoyeds || aunt.samoyeds.is_none())
@@ -125,7 +127,10 @@ fn part2(aunts: &[Aunt]) -> u16 {
 /* ---------- */
 
 fn main() {
-    let tatans = utils::input_str!().lines().map(Aunt::from).collect::<Vec<Aunt>>();
+    let tatans = utils::input_str!()
+        .lines()
+        .map(Aunt::from)
+        .collect::<Vec<Aunt>>();
 
     utils::answer!(&tatans)
 }

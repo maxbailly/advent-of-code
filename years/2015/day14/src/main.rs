@@ -66,24 +66,18 @@ fn part1(reindeers: &[Reindeer]) -> u32 {
 
 /* ---------- */
 
-fn part2(reindeers: &mut Vec<Reindeer>) -> u32 {
+fn part2(reindeers: &mut [Reindeer]) -> u32 {
     for time in 1..TRAVEL_TIME {
-        // println!("at {time} seconds");
-
         let max_distance = reindeers
             .iter_mut()
             .map(|reindeer| reindeer.update_distance(time))
             .max()
             .expect("to find the reindeer that travelled a greater distance");
 
-        // println!("\twinner distance = {max_distance}");
-
         reindeers
             .iter_mut()
-            // .inspect(|r| println!("\t{r:?}"))
             .filter(|reindeer| max_distance == reindeer.travelled_distance())
             .for_each(|reindeer| {
-                // println!("\t{reindeer:?}");
                 reindeer.inc_pts();
             })
     }

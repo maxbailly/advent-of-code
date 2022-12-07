@@ -87,7 +87,7 @@ impl LightState {
 
 /* ---------- */
 
-fn next_step(prev: &[LightState], next: &mut Vec<LightState>, part: Part) {
+fn next_step(prev: &[LightState], next: &mut [LightState], part: Part) {
     prev.iter()
         .enumerate()
         .filter(|(index, _)| *index != TOP_LEFT_ID || !matches!(part, Part::Two))
